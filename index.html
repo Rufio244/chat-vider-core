@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Vider - AI App Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#090d16] text-slate-100 h-screen flex flex-col">
+
+    <!-- Header & Logo -->
+    <header class="h-16 border-b border-slate-800 flex items-center justify-between px-6 bg-[#0c101d]">
+        <div class="flex items-center space-x-3">
+            <!-- โลโก้แก้วเปล่า (The Infinite Vessel) -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="36" height="36">
+                <defs>
+                    <linearGradient id="cupOutline" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#38bdf8" />
+                        <stop offset="50%" stop-color="#6366f1" />
+                        <stop offset="100%" stop-color="#a855f7" />
+                    </linearGradient>
+                    <linearGradient id="innerLiquid" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.1" />
+                        <stop offset="100%" stop-color="#6366f1" stop-opacity="0.4" />
+                    </linearGradient>
+                </defs>
+                <g transform="translate(25, 20)">
+                    <path d="M 35 25 L 115 25 L 102 120 C 100 134 88 145 75 145 C 62 145 50 134 48 120 Z" fill="url(#innerLiquid)" stroke="url(#cupOutline)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <ellipse cx="75" cy="25" rx="40" ry="9" fill="none" stroke="url(#cupOutline)" stroke-width="5"/>
+                    <path d="M 62 70 L 75 98 L 88 70" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+                </g>
+            </svg>
+            <span class="text-xl font-bold tracking-tight">chat <span class="text-sky-400">Vider</span></span>
+        </div>
+        <div class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-medium">
+            ● Enterprise Online
+        </div>
+    </header>
+
+    <!-- Chat Workspace -->
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 border-r border-slate-800 bg-[#070a12] p-4 hidden md:flex flex-col justify-between">
+            <div class="space-y-2">
+                <button class="w-full text-left px-3 py-2 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 font-medium text-sm">+ สร้างแอปใหม่</button>
+                <div class="pt-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">ประวัติโปรเจกต์</div>
+                <div class="text-sm text-slate-400 py-1 px-2 hover:bg-slate-800/50 rounded cursor-pointer">ระบบร้านค้าออนไลน์</div>
+                <div class="text-sm text-slate-400 py-1 px-2 hover:bg-slate-800/50 rounded cursor-pointer">แดชบอร์ดวิเคราะห์ข้อมูล</div>
+            </div>
+            <div class="text-xs text-slate-500">Chat Vider Engine v5.1</div>
+        </aside>
+
+        <!-- Main Chat Box -->
+        <main class="flex-1 flex flex-col justify-between p-6 overflow-y-auto">
+            <div id="chat-container" class="space-y-4 max-w-3xl mx-auto w-full">
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-sm">V</div>
+                    <div class="bg-slate-800/80 p-4 rounded-2xl max-w-xl text-sm leading-relaxed border border-slate-700/50">
+                        สวัสดีครับ ผมคือ **Chat Vider** พร้อมแปลงทุกไอเดียของคุณให้เป็นแอปพลิเคชันจริง พิมพ์บรีฟงานหรือไอเดียที่คุณต้องการสร้างได้เลยครับ!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Box -->
+            <div class="max-w-3xl mx-auto w-full pt-4">
+                <div class="relative flex items-center">
+                    <input type="text" id="prompt-input" placeholder="พิมพ์ไอเดียแอปพลิเคชันของคุณที่นี่..." 
+                           class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-4 pl-4 pr-24 text-sm focus:outline-none focus:border-indigo-500 shadow-inner">
+                    <button onclick="sendPrompt()" class="absolute right-2 bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-xl text-sm font-medium transition">
+                        สร้างแอป
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        async function sendPrompt() {
+            const input = document.getElementById('prompt-input');
+            const container = document.getElementById('chat-container');
+            const text = input.value.trim();
+            if(!text) return;
+
+            // แสดงข้อความผู้ใช้
+            container.innerHTML += `<div class="flex justify-end"><div class="bg-indigo-600 text-white p-4 rounded-2xl max-w-xl text-sm">${text}</div></div>`;
+            input.value = '';
+
+            try {
+                // จำลองการเรียก API ไปยัง Backend (ต้องใส่ API Key ของคุณที่นี่)
+                container.innerHTML += `<div id="loading" class="flex items-start space-x-3"><div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-sm">V</div><div class="bg-slate-800/80 p-4 rounded-2xl text-sm text-slate-400">กำลังประมวลผล สร้างโค้ด และ Deploy...</div></div>`;
+                
+                setTimeout(() => {
+                    document.getElementById('loading').remove();
+                    container.innerHTML += `<div class="flex items-start space-x-3"><div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-sm">V</div><div class="bg-slate-800/80 p-4 rounded-2xl max-w-xl text-sm leading-relaxed border border-slate-700/50">สร้างแอปพลิเคชันสำเร็จเรียบร้อยครับ! 🎉<br><br>🌐 **Live URL:** <a href="#" class="text-sky-400 underline">https://app-18392.vider.app</a><br>📦 **GitHub:** <a href="#" class="text-sky-400 underline">github.com/chat-vider-org/app-18392</a></div></div>`;
+                    container.scrollTop = container.scrollHeight;
+                }, 1500);
+            } catch(e) {
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+</html>
